@@ -1,5 +1,4 @@
-## Large-scale climate indices
--------------------------------
+# Large-scale climate indices
 
 For further information on ENSO indices, visit:
 
