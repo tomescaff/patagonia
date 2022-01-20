@@ -10,7 +10,7 @@ INDICES_ROOT = dirname(dirname(abspath(__file__)))
 DATA_ROOT = join(INDICES_ROOT, 'data')
 
 # useful for the majority of ENSO indices
-def generic_reader(filepath):
+def generic_reader(filepath, nanvalue):
     
     # read file as pandas dataframe
     df = pd.read_csv(filepath, header=None, sep='\s+', skiprows=1)
@@ -33,33 +33,33 @@ def generic_reader(filepath):
 
     # create and return xarray object with data
     da = xr.DataArray(data.values.ravel(), coords=[dr], dims=['time'])
-    da[da==-99.99] = np.nan # handle nans
+    da[da==nanvalue] = np.nan # handle nans
     return da
 
 # nino 1+2 index at monthly timescale
 def nino12_index():
     filepath = join(DATA_ROOT, 'nino12.data.txt')
-    return generic_reader(filepath)
+    return generic_reader(filepath, nanvalue=-99.99)
 
 # nino 3.4 index at monthly timescale
 def nino34_index():
     filepath = join(DATA_ROOT, 'nino34.data.txt')
-    return generic_reader(filepath)
+    return generic_reader(filepath, nanvalue=-99.99)
 
 # nino 4 index at monthly timescale
 def nino4_index():
     filepath = join(DATA_ROOT, 'nino4.data.txt')
-    return generic_reader(filepath)
+    return generic_reader(filepath, nanvalue=-99.99)
 
 # oni index at monthly timescale
 def oni_index():
     filepath = join(DATA_ROOT, 'oni.data.txt')
-    return generic_reader(filepath)
+    return generic_reader(filepath, nanvalue=-99.9)
 
 # tni index at monthly timescale
 def tni_index():
     filepath = join(DATA_ROOT, 'tni.data.txt')
-    return generic_reader(filepath)
+    return generic_reader(filepath, nanvalue=-99.99)
 
 # cti index at monthly timescale
 def cti_index():
