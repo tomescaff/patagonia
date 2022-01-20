@@ -34,3 +34,11 @@ The following ENSO indices are available:
 7. EP ENSO at monthly timescale from 1948-01 to 2021-01.
 
 8. CP ENSO at monthly timescale from 1948-01 to 2021-01.
+
+<br>
+
+### SAM indices
+
+The following SAM index is available:
+
+1. AAOI at monthly timescale from 1979-01 to 2018-08.
