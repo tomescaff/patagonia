@@ -20,7 +20,7 @@ def generic_reader(filepath):
         try:
             year = float(df.iloc[i,0])
             assert year > 0
-        except ValueError:
+        except:
             break
     
     # get data
