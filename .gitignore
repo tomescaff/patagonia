@@ -129,7 +129,7 @@ dmypy.json
 .pyre/
 
 # custom
-private/ 
+processing/data/ 
 
 # figures
 .png
