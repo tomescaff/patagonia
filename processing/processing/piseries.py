@@ -6,7 +6,7 @@ import xarray as xr
 
 # load modeled variables over the patagonian icefields at monthly scale from plain text with final data
 def load_piseries_monthly():
-    mon_df = pd.read_csv('../data/month_piseries.txt', sep=';')
+    mon_df = pd.read_csv('../data/month_piseries.txt', sep=';', parse_dates=['time'])
     varnames = ['mb', 'acc', 'abl', 'tas', 'pr', 'rsds']
     dataset_dict = {}
     for varname in varnames:
@@ -15,7 +15,7 @@ def load_piseries_monthly():
 
 # load modeled variables over the patagonian icefields at yearly scale from plain text with final data
 def load_piseries_yearly():
-    mon_df = pd.read_csv('../data/year_piseries.txt', sep=';')
+    mon_df = pd.read_csv('../data/year_piseries.txt', sep=';', parse_dates=['time'])
     varnames = ['mb', 'acc', 'abl', 'tas', 'pr', 'rsds']
     dataset_dict = {}
     for varname in varnames:
