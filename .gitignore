@@ -144,3 +144,6 @@ processing/data/
 # Mac
 .key
 .numbers
+
+# IDE
+.vscode
