@@ -86,7 +86,7 @@ begin
   ; creating top plot
   ;************************************************
 
-  res1@gsnLeftString = "a) SST/SAT (correlation, in colors) & MSLP (regression, in contours)"
+  res1@gsnLeftString = "a) SST/SAT (corr. in colors) & MSLP (reg. in contours)"
   plot1_a = gsn_csm_contour_map(wks, sst, res1)
   plot2_a = gsn_csm_contour(wks, mslp, res2)
   plot2_a = ColorNegDashZeroPosContour(plot2_a,"blue","magenta","red")
@@ -96,7 +96,7 @@ begin
   ; creating center plot
   ;************************************************
 
-  res1@gsnLeftString = "b) u850 (correlation, in colors) & V850 (regression, in vectors)"
+  res1@gsnLeftString = "b) u850 (corr. in colors) & V850 (reg. in vectors)"
   vcres                         = True             ; plot mods desired
   vcres@gsnDraw                 = False            ; don't draw yet
   vcres@gsnFrame                = False            ; so we can draw time stamp
@@ -113,7 +113,7 @@ begin
   ; creating bottom plot
   ;************************************************
 
-  res1@gsnLeftString = "c) OLR (correlation, in colors) & Z300 (regression, in contours)"
+  res1@gsnLeftString = "c) OLR (corr. in colors) & Z300 (reg. in contours)"
   res2@cnMinLevelValF       = -30                   ; set min contour level
   res2@cnMaxLevelValF       =  30                   ; set max contour level
   res2@cnLevelSpacingF      =  3                    ; set contour spacing
@@ -139,6 +139,6 @@ begin
   gsn_panel(wks,plot,(/3,1/),resP)             ; now draw as one plot	
   delete(wks)
 
-  cmd = "convert -trim ../data/mb_annual_vs_fields_annual.png ../data/mb_annual_vs_fields_annual.png"
+  cmd = "convert -trim ../data/png/mb_annual_vs_fields_annual.png ../data/png/mb_annual_vs_fields_annual.png"
   system(cmd)   
 end 
