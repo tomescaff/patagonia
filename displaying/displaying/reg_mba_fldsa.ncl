@@ -1,0 +1,146 @@
+load "utils.ncl"
+begin
+
+  ;************************************************
+  ; get data
+  ;************************************************
+
+  f      = addfile ("../data/regional_latlon_reg_mb_annual.nc", "r")
+  tas    = f->tas_corrmap(:,:) 
+  uas    = f->uas_regmap(:,:)
+  vas    = f->vas_regmap(:,:)
+  pr     = f->pr_corrmap(:,:) 
+  u700   = f->ua700_regmap(:,:)
+  v700   = f->va700_regmap(:,:)
+
+  fglacier_npi = "../data/shapes/glims/NPI_shape.shp"
+  fglacier_spi = "../data/shapes/glims/SPI_shape.shp"
+
+  ;************************************************
+  ; define work station and colormap
+  ;************************************************
+
+  wtype = "png"
+  wks = gsn_open_wks(wtype, "../data/png/reg_mba_fldsa.png")       ; send graphics to PNG file
+  
+  ;************************************************
+  ; basic resource list for first data array
+  ;************************************************
+
+  res1             = True
+  res1@gsnMaximize = True                        ; maximize plot in frame
+  res1@mpOutlineOn = True                        ; turn the map outline on
+  res1@cnLevelSelectionMode = "ExplicitLevels"   ; set explicit contour levels
+  res1@cnLevels    = (/ -0.7, -0.6,-0.5,-0.4,-0.3,-0.2,-0.1,0.1,0.2,0.3,0.4,0.5,0.6,0.7/) ; set levels
+ 
+  res1@cnFillOn    = True                        ; turn on color fill
+  res1@cnLinesOn   = False                       ; turn off the contour lines
+  res1@cnLineLabelsOn = False                    ; turn the line labels off
+  res1@cnFillPalette  = "MPL_BrBG"          ; set color map
+  res1@mpProjection = "Mercator"
+  res1@mpLimitMode  = True
+  res1@mpMinLatF = -57.			                      ; set the minimum latitude = -70.
+  res1@mpMaxLatF = -40.			                      ; set the maximum latitude = 30.
+  res1@mpMinLonF = -90.			                      ; set the minimum latitude = -70.
+  res1@mpMaxLonF = -60.			                      ; set the maximum latitude = 30.
+  res1@mpCenterLonF = (res1@mpMinLonF + res1@mpMaxLonF) / 2.
+  
+  res1@pmTickMarkDisplayMode = "Always" 
+  res1@mpGridAndLimbOn        = True             ; turn on grid lines
+  res1@mpGridLineDashPattern  = 12               ; lat/lon lines dashed
+  res1@mpGridLatSpacingF      = 4
+  res1@mpGridLonSpacingF      = 5
+ 
+  res1@gsnDraw          = False                  ; don't draw yet
+  res1@gsnFrame         = False                  ; don't advance frame yet
+  
+  res1@mpOutlineOn = True
+  res1@mpDataBaseVersion    = "HighRes"
+  res1@mpDataResolution = "Finest"
+  res1@gsnAddCyclic = False
+ 
+  ;res1@gsnMajorLatSpacing = 30                   ; change maj lat tm spacing
+  ;res1@gsnMajorLonSpacing = 60                   ; change maj lon tm spacing
+
+  res1@lbBoxEndCapStyle = "TriangleBothEnds"
+  res1@lbLabelBarOn        = True               ; turn off individual cb's
+  res1@lbOrientation =   "vertical"          ; vertical label bar
+
+  ;************************************************
+  ; basic resource list for vector map
+  ;************************************************
+
+  vcres                         = True             ; plot mods desired
+  vcres@gsnDraw                 = False            ; don't draw yet
+  vcres@gsnFrame                = False            ; so we can draw time stamp
+  vcres@vcRefAnnoOrthogonalPosF = -1.0             ; move ref vector up
+  vcres@vcRefMagnitudeF         = 1.2              ; define vector ref mag
+  vcres@vcRefLengthF            = 0.035            ; define length of vec ref
+  vcres@vcGlyphStyle            = "CurlyVector"    ; turn on curly vectors
+  vcres@vcMinDistanceF          = 0.025
+
+  ;************************************************
+  ; basic resource list for icefields' shapes
+  ;************************************************
+
+  pres             = True
+  pres@gsLineColor = "black"
+  pres@gsLineThicknessF = 6.0
+
+  ;************************************************
+  ; creating top plot
+  ;************************************************
+
+  res1@gsnLeftString = "a) PRECIP (corr. in colors) & V700 (reg. in vectors)"
+  plot1_a = gsn_csm_contour_map(wks, pr, res1)
+  poly_npi_a = gsn_add_shapefile_polylines(wks, plot1_a, fglacier_npi, pres)
+  poly_spi_a = gsn_add_shapefile_polylines(wks, plot1_a, fglacier_spi, pres)
+
+  plot2_a = gsn_csm_vector(wks, u700, v700, vcres)
+  overlay(plot1_a, plot2_a)
+
+  ;************************************************
+  ; creating center plot
+  ;************************************************
+  
+  res1@cnFillPalette  = "BlueWhiteOrangeRed"          ; set color map
+  res1@gsnLeftString = "b) SAT (corr. in colors) & V2m (reg. in vectors)"
+  vcres@vcRefMagnitudeF         = 0.7
+  plot1_b = gsn_csm_contour_map(wks, tas, res1)
+  poly_npi_b = gsn_add_shapefile_polylines(wks, plot1_b, fglacier_npi, pres)
+  poly_spi_b = gsn_add_shapefile_polylines(wks, plot1_b, fglacier_spi, pres)
+
+  plot2_b = gsn_csm_vector(wks, uas, vas, vcres)
+  overlay(plot1_b, plot2_b)
+
+  ;************************************************
+  ; creating bottom plot
+  ;************************************************
+
+  res1@gsnLeftString = "c) OLR (corr. in colors) & Z300 (reg. in contours)"
+  ; plot1_c = gsn_csm_contour_map(wks, olr, res1)
+  ; plot2_c = gsn_csm_contour(wks, z300, res2)
+  ; plot2_c = ColorNegDashZeroPosContour(plot2_c,"blue","magenta","red")
+  ; overlay(plot1_c,plot2_c)
+
+  
+  ;************************************************
+  ; create panel
+  ;************************************************
+
+  plot = new(3,graphic)                          ; create a plot array
+  plot(0) = plot1_a
+  plot(1) = plot1_b
+  ; plot(2) = plot1_c
+
+  resP                    = True                 ; modify the panel plot
+  resP@lbLabelFontHeightF  = 0.007               ; make labels smaller
+  resP@gsnPanelYWhiteSpacePercent = 3
+  ;resP@gsnPanelBottom   = 0.2			 ; shrink panel plot by setting bottom edge of plot
+  ;resP@gsnPanelTop      = 0.9			 ; shrink panel plot by setting top edge of plot
+  gsn_panel(wks,plot,(/3,1/),resP)             ; now draw as one plot	
+  ;delete(wks)
+
+  ;cmd = "convert -trim ../data/png/mb_annual_vs_fields_annual.png ../data/png/mb_annual_vs_fields_annual.png"
+  ;system(cmd)   
+end 
