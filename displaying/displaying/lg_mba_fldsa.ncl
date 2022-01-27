@@ -23,7 +23,7 @@ begin
   ;************************************************
 
   wtype = "png"
-  wks = gsn_open_wks(wtype, "../data/png/mb_annual_vs_fields_annual.png")       ; send graphics to PNG file
+  wks = gsn_open_wks(wtype, "../data/png/lg_mba_fldsa.png")       ; send graphics to PNG file
   gsn_define_colormap(wks, "BlueWhiteOrangeRed")
 
   ;************************************************
