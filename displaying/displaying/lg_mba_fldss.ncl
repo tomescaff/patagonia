@@ -139,6 +139,6 @@ begin
   gsn_panel(wks,plot,(/3,1/),resP)             ; now draw as one plot	
   delete(wks)
 
-  cmd = "convert -trim ../data/png/mb_annual_vs_fields_summer.png ../data/png/mb_annual_vs_fields_summer.png"
+  cmd = "convert -trim ../data/png/lg_mba_fldss.png ../data/png/lg_mba_fldss.png"
   system(cmd)   
 end 
