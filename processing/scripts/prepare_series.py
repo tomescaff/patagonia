@@ -24,6 +24,8 @@ def prepare_series(detrend = False):
     data['mb'] = piseries.load_piseries_monthly()['mb']
     data['tas'] = piseries.load_piseries_monthly()['tas']
     data['pr'] = piseries.load_piseries_monthly()['pr']
+    data['abl'] = piseries.load_piseries_monthly()['abl']
+    data['acc'] = piseries.load_piseries_monthly()['acc']
 
     # load indices
     data['enso-ep'] = enso.ep_nino_index()

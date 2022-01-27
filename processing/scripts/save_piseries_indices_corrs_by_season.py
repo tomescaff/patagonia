@@ -176,6 +176,9 @@ runs = [
 
     ['enso-ep', 'enso-ep', 'corr_seas_ensoep_ensoep'],
     ['sam', 'sam', 'corr_seas_sam_sam'],
+
+    ['enso-ep', 'abl', 'corr_seas_ensoep_abl'],
+    ['enso-ep', 'acc', 'corr_seas_ensoep_acc'],
 ]
 
 # get series of monthly anomalies
@@ -183,5 +186,5 @@ data = prepare_series(detrend=False)
 
 # create and save tables
 for run in runs:
-    save_correlation_table(data[run[0]], data[run[1]], '../data/'+run[2]+'_rval.md', '../data/'+run[2]+'_pval.md')
+    save_correlation_table(data[run[0]], data[run[1]], '../data/corr_seas/'+run[2]+'_rval.md', '../data/corr_seas/'+run[2]+'_pval.md')
     
