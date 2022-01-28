@@ -70,7 +70,7 @@ begin
   vcres                         = True             ; plot mods desired
   vcres@gsnDraw                 = False            ; don't draw yet
   vcres@gsnFrame                = False            ; so we can draw time stamp
-  vcres@vcRefAnnoOrthogonalPosF = -1.0             ; move ref vector up
+  vcres@vcRefAnnoOrthogonalPosF = -1.084           ; move ref vector up
   vcres@vcRefMagnitudeF         = 1.0              ; define vector ref mag
   vcres@vcRefLengthF            = 0.03             ; define length of vec ref
   vcres@vcGlyphStyle            = "CurlyVector"    ; turn on curly vectors
