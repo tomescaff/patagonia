@@ -5,8 +5,8 @@ begin
   ; get data
   ;************************************************
 
-  f1            = addfile ("../data/sstsat_annual.nc", "r")
-  f             = addfile ("../data/mb_largescalecorrs_annual.nc", "r")
+  f1            = addfile ("../data/nc/lg_mba_sstsata.nc", "r")
+  f             = addfile ("../data/nc/lg_mba_fldsa.nc", "r")
   
   sst           = f1->sstsat__corr(:,:)       
   mslp          = f->msl__regress(:,:)
