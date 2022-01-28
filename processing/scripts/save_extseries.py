@@ -4,7 +4,9 @@ import pandas as pd
 # append the path of the parent directory
 sys.path.append("..")
 
-from processing import extseries
+from processing import extseries, piseries
+
+time = piseries.load_piseries_monthly()['mb'].time
 
 mon_data = dict()
 mon_data['u850_pat'] = extseries.u850_pat()
@@ -34,7 +36,7 @@ for varname in mon_data:
 
 mon_df = pd.DataFrame()
 
-mon_df['time'] = mon_data['u850_pat'].time
+mon_df['time'] = time
 
 for varname in mon_data:
     mon_df[varname] = mon_data[varname]
