@@ -5,7 +5,7 @@ begin
   ; get data
   ;************************************************
 
-  f      = addfile ("../data/regional_latlon_reg_mb_annual.nc", "r")
+  f      = addfile ("../data/nc/reg_mba_fldsa.nc", "r")
   tas    = f->tas_corrmap(:,:) 
   uas    = f->uas_regmap(:,:)
   vas    = f->vas_regmap(:,:)
@@ -28,15 +28,15 @@ begin
   ;************************************************
 
   res1             = True
-  res1@gsnMaximize = True                        ; maximize plot in frame
-  res1@mpOutlineOn = True                        ; turn the map outline on
-  res1@cnLevelSelectionMode = "ExplicitLevels"   ; set explicit contour levels
+  res1@gsnMaximize = True                         ; maximize plot in frame
+  res1@mpOutlineOn = True                         ; turn the map outline on
+  res1@cnLevelSelectionMode = "ExplicitLevels"    ; set explicit contour levels
   res1@cnLevels    = (/ -0.7, -0.6,-0.5,-0.4,-0.3,-0.2,-0.1,0.1,0.2,0.3,0.4,0.5,0.6,0.7/) ; set levels
  
-  res1@cnFillOn    = True                        ; turn on color fill
-  res1@cnLinesOn   = False                       ; turn off the contour lines
-  res1@cnLineLabelsOn = False                    ; turn the line labels off
-  res1@cnFillPalette  = "MPL_BrBG"          ; set color map
+  res1@cnFillOn    = True                         ; turn on color fill
+  res1@cnLinesOn   = False                        ; turn off the contour lines
+  res1@cnLineLabelsOn = False                     ; turn the line labels off
+  res1@cnFillPalette  = "MPL_BrBG"                ; set color map
   res1@mpProjection = "Mercator"
   res1@mpLimitMode  = True
   res1@mpMinLatF = -57.			                      ; set the minimum latitude = -70.
@@ -46,25 +46,22 @@ begin
   res1@mpCenterLonF = (res1@mpMinLonF + res1@mpMaxLonF) / 2.
   
   res1@pmTickMarkDisplayMode = "Always" 
-  res1@mpGridAndLimbOn        = True             ; turn on grid lines
-  res1@mpGridLineDashPattern  = 12               ; lat/lon lines dashed
+  res1@mpGridAndLimbOn        = True              ; turn on grid lines
+  res1@mpGridLineDashPattern  = 12                ; lat/lon lines dashed
   res1@mpGridLatSpacingF      = 4
   res1@mpGridLonSpacingF      = 5
  
-  res1@gsnDraw          = False                  ; don't draw yet
-  res1@gsnFrame         = False                  ; don't advance frame yet
+  res1@gsnDraw          = False                   ; don't draw yet
+  res1@gsnFrame         = False                   ; don't advance frame yet
   
   res1@mpOutlineOn = True
   res1@mpDataBaseVersion    = "HighRes"
   res1@mpDataResolution = "Finest"
   res1@gsnAddCyclic = False
  
-  ;res1@gsnMajorLatSpacing = 30                   ; change maj lat tm spacing
-  ;res1@gsnMajorLonSpacing = 60                   ; change maj lon tm spacing
-
   res1@lbBoxEndCapStyle = "TriangleBothEnds"
-  res1@lbLabelBarOn        = True               ; turn off individual cb's
-  res1@lbOrientation =   "vertical"          ; vertical label bar
+  res1@lbLabelBarOn        = True                 ; turn off individual cb's
+  res1@lbOrientation =   "vertical"               ; vertical label bar
 
   ;************************************************
   ; basic resource list for vector map
@@ -74,8 +71,8 @@ begin
   vcres@gsnDraw                 = False            ; don't draw yet
   vcres@gsnFrame                = False            ; so we can draw time stamp
   vcres@vcRefAnnoOrthogonalPosF = -1.0             ; move ref vector up
-  vcres@vcRefMagnitudeF         = 1.2              ; define vector ref mag
-  vcres@vcRefLengthF            = 0.035            ; define length of vec ref
+  vcres@vcRefMagnitudeF         = 1.0              ; define vector ref mag
+  vcres@vcRefLengthF            = 0.03             ; define length of vec ref
   vcres@vcGlyphStyle            = "CurlyVector"    ; turn on curly vectors
   vcres@vcMinDistanceF          = 0.025
 
@@ -100,7 +97,7 @@ begin
   overlay(plot1_a, plot2_a)
 
   ;************************************************
-  ; creating center plot
+  ; creating bottom plot
   ;************************************************
   
   res1@cnFillPalette  = "BlueWhiteOrangeRed"          ; set color map
@@ -114,33 +111,19 @@ begin
   overlay(plot1_b, plot2_b)
 
   ;************************************************
-  ; creating bottom plot
-  ;************************************************
-
-  res1@gsnLeftString = "c) OLR (corr. in colors) & Z300 (reg. in contours)"
-  ; plot1_c = gsn_csm_contour_map(wks, olr, res1)
-  ; plot2_c = gsn_csm_contour(wks, z300, res2)
-  ; plot2_c = ColorNegDashZeroPosContour(plot2_c,"blue","magenta","red")
-  ; overlay(plot1_c,plot2_c)
-
-  
-  ;************************************************
   ; create panel
   ;************************************************
 
-  plot = new(3,graphic)                          ; create a plot array
+  plot = new(2,graphic)                          ; create a plot array
   plot(0) = plot1_a
   plot(1) = plot1_b
-  ; plot(2) = plot1_c
-
+  
   resP                    = True                 ; modify the panel plot
   resP@lbLabelFontHeightF  = 0.007               ; make labels smaller
   resP@gsnPanelYWhiteSpacePercent = 3
-  ;resP@gsnPanelBottom   = 0.2			 ; shrink panel plot by setting bottom edge of plot
-  ;resP@gsnPanelTop      = 0.9			 ; shrink panel plot by setting top edge of plot
-  gsn_panel(wks,plot,(/3,1/),resP)             ; now draw as one plot	
-  ;delete(wks)
+  gsn_panel(wks,plot,(/2,1/),resP)               ; now draw as one plot	
+  delete(wks)
 
-  ;cmd = "convert -trim ../data/png/mb_annual_vs_fields_annual.png ../data/png/mb_annual_vs_fields_annual.png"
-  ;system(cmd)   
+  cmd = "convert -trim ../data/png/reg_mba_fldsa.png ../data/png/reg_mba_fldsa.png"
+  system(cmd)   
 end 
