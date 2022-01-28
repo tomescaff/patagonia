@@ -8,7 +8,7 @@ def load_extseries_monthly():
     # read data
     mon_df = pd.read_csv(filepath, sep=';', parse_dates=['time'])
     # get varnames from dataframe columns
-    varnames = mon_df.columns
+    varnames = list(mon_df.columns)
     varnames.remove('time')
     # create xarray dataset and return
     dataset_dict = {}
