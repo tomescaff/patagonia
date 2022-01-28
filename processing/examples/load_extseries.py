@@ -5,4 +5,4 @@ sys.path.append("..")
 
 from processing import extseries
 
-sst_pat = extseries.sst_pat()
+ext = extseries.load_extseries_monthly()
