@@ -149,42 +149,43 @@ def save_correlation_table(x, y, filepath_r, filepath_p):
     with open(filepath_p, 'w') as f:
         print(seas_p_df.to_markdown(), file=f)
 
-# define runs for creating and saving corr tables
-runs = [
-    ['enso-ep', 'mb', 'corr_seas_ensoep_mb'],
-    ['enso-ep', 'tas', 'corr_seas_ensoep_tas'],
-    ['enso-ep', 'pr', 'corr_seas_ensoep_pr'],
+if __name__=='__main__':
+    # define runs for creating and saving corr tables
+    runs = [
+        ['enso-ep', 'mb', 'corr_seas_ensoep_mb'],
+        ['enso-ep', 'tas', 'corr_seas_ensoep_tas'],
+        ['enso-ep', 'pr', 'corr_seas_ensoep_pr'],
 
-    ['enso-cp', 'mb', 'corr_seas_ensocp_mb'],
-    ['enso-cp', 'tas', 'corr_seas_ensocp_tas'],
-    ['enso-cp', 'pr', 'corr_seas_ensocp_pr'],
+        ['enso-cp', 'mb', 'corr_seas_ensocp_mb'],
+        ['enso-cp', 'tas', 'corr_seas_ensocp_tas'],
+        ['enso-cp', 'pr', 'corr_seas_ensocp_pr'],
 
-    ['enso-nino12', 'mb', 'corr_seas_enso12_mb'],
-    ['enso-nino12', 'tas', 'corr_seas_enso12_tas'],
-    ['enso-nino12', 'pr', 'corr_seas_enso12_pr'],
+        ['enso-nino12', 'mb', 'corr_seas_enso12_mb'],
+        ['enso-nino12', 'tas', 'corr_seas_enso12_tas'],
+        ['enso-nino12', 'pr', 'corr_seas_enso12_pr'],
 
-    ['sam', 'mb', 'corr_seas_sam_mb'],
-    ['sam', 'tas', 'corr_seas_sam_tas'],
-    ['sam', 'pr', 'corr_seas_sam_pr'],
+        ['sam', 'mb', 'corr_seas_sam_mb'],
+        ['sam', 'tas', 'corr_seas_sam_tas'],
+        ['sam', 'pr', 'corr_seas_sam_pr'],
 
-    ['pdo', 'mb', 'corr_seas_pdo_mb'],
-    ['pdo', 'tas', 'corr_seas_pdo_tas'],
-    ['pdo', 'pr', 'corr_seas_pdo_pr'],
+        ['pdo', 'mb', 'corr_seas_pdo_mb'],
+        ['pdo', 'tas', 'corr_seas_pdo_tas'],
+        ['pdo', 'pr', 'corr_seas_pdo_pr'],
 
-    ['enso-ep', 'sam', 'corr_seas_ensoep_sam'],
-    ['enso-cp', 'sam', 'corr_seas_ensocp_sam'],
+        ['enso-ep', 'sam', 'corr_seas_ensoep_sam'],
+        ['enso-cp', 'sam', 'corr_seas_ensocp_sam'],
 
-    ['enso-ep', 'enso-ep', 'corr_seas_ensoep_ensoep'],
-    ['sam', 'sam', 'corr_seas_sam_sam'],
+        ['enso-ep', 'enso-ep', 'corr_seas_ensoep_ensoep'],
+        ['sam', 'sam', 'corr_seas_sam_sam'],
 
-    ['enso-ep', 'abl', 'corr_seas_ensoep_abl'],
-    ['enso-ep', 'acc', 'corr_seas_ensoep_acc'],
-]
+        ['enso-ep', 'abl', 'corr_seas_ensoep_abl'],
+        ['enso-ep', 'acc', 'corr_seas_ensoep_acc'],
+    ]
 
-# get series of monthly anomalies
-data = prepare_series(detrend=False)
+    # get series of monthly anomalies
+    data = prepare_series(detrend=False)
 
-# create and save tables
-for run in runs:
-    save_correlation_table(data[run[0]], data[run[1]], '../data/corr_seas/'+run[2]+'_rval.md', '../data/corr_seas/'+run[2]+'_pval.md')
-    
+    # create and save tables
+    for run in runs:
+        save_correlation_table(data[run[0]], data[run[1]], '../data/corr_seas/'+run[2]+'_rval.md', '../data/corr_seas/'+run[2]+'_pval.md')
+        
