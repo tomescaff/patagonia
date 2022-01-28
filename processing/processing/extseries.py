@@ -1,6 +1,20 @@
 import os
 import xarray as xr
+import pandas as pd
 from .settings import *
+
+def load_extseries_monthly():
+    filepath = '../data/month_extseries.txt'
+    # read data
+    mon_df = pd.read_csv(filepath, sep=';', parse_dates=['time'])
+    # get varnames from dataframe columns
+    varnames = mon_df.columns
+    varnames.remove('time')
+    # create xarray dataset and return
+    dataset_dict = {}
+    for varname in varnames:
+        dataset_dict[varname] = xr.DataArray(mon_df[varname], coords=[mon_df['time']], dims=['time'])
+    return xr.Dataset(dataset_dict)
 
 # define reg-scale boxes
 BOXU850     = dict(latmin=-52,latmax=-46,lonmin=-75.5,lonmax=-74.5)
