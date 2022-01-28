@@ -21,11 +21,11 @@ def load_piseries_monthly(icefield='both'):
 
 # load modeled variables over the patagonian icefields at yearly scale from plain text with final data
 def load_piseries_yearly():
-    mon_df = pd.read_csv('../data/year_piseries.txt', sep=';', parse_dates=['time'])
+    yea_df = pd.read_csv('../data/year_piseries.txt', sep=';', parse_dates=['time'])
     varnames = ['mb', 'acc', 'abl', 'tas', 'pr', 'rsds']
     dataset_dict = {}
     for varname in varnames:
-        dataset_dict[varname] = xr.DataArray(mon_df[varname], coords=[mon_df['time']], dims=['time'])
+        dataset_dict[varname] = xr.DataArray(yea_df[varname], coords=[yea_df['time']], dims=['time'])
     return xr.Dataset(dataset_dict)
 
 
