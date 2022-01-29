@@ -92,7 +92,7 @@ def correlation_by_season(x_data, y_data, season_x, season_y_list, ini_year_list
 
 # create table of lagged-correlation filtered by season at season resolution from
 # series of monthly anomalies
-def create_dataframes(x_data, y_data, input):
+def create_dataframes(x_data, y_data, input, remove_serie=None):
 
     # define tables as empty dataframes
     seas_r_df = pd.DataFrame()
@@ -112,17 +112,17 @@ def create_dataframes(x_data, y_data, input):
                                         input[seas]['ini_year_list'], 
                                         input[seas]['end_year_list'],
                                         'season',
-                                        None)
+                                        remove_serie)
         seas_r_df[seas] = rs
         seas_p_df[seas] = ps
     return seas_r_df, seas_p_df
 
 # create and save seasonal correlation tables between serie of monthly anomalies (x and y)
 # filtered by season. Print tables to files in markdown format. 
-def save_correlation_table(x, y, filepath_r, filepath_p):
+def save_correlation_table(x, y, filepath_r, filepath_p, remove_serie = None):
 
     # create and compute lagged-corr tables as dataframes
-    seas_r_df, seas_p_df = create_dataframes(x, y, input)
+    seas_r_df, seas_p_df = create_dataframes(x, y, input, remove_serie)
 
     # fill table with 2 decimal precision
     for key in input:
