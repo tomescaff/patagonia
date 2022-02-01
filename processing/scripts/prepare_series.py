@@ -5,7 +5,7 @@ sys.path.append("..")
 sys.path.append("../../indices/")
 
 import xarray as xr
-from processing import piseries
+from processing import piseries, extseries
 from readers import enso, sam, pdo
 from scipy import signal
 
@@ -33,6 +33,15 @@ def prepare_series(detrend = False):
     data['enso-nino12'] = enso.nino12_index()
     data['sam'] = sam.aaoi_index()
     data['pdo'] = pdo.pdo_index()
+
+    # load extseries
+    ext = extseries.load_extseries_monthly()
+    data['u850-pat'] = ext['u850_pat']
+    data['t850-pat'] = ext['t850_pat']
+    data['sst-pat'] = ext['sst_pat']
+    data['z300-drake'] = ext['z300_drake']
+    data['t850-drake'] = ext['t850_drake']
+    data['asl-mean'] = ext['asl_mean']
 
     # compute monthly anomalies between sel dates
     for key in data:
