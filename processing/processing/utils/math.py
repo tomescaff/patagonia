@@ -26,8 +26,13 @@ def correlation_3D_1D(x, y):
     # fill matrix with correlations
     for i in range(n):
         for j in range(m):
-            r,p = stats.pearsonr(x[:,i,j], y)
-            matrix[i,j] = r
+            if np.isnan(x[:,i,j]).all() or np.isnan(y[:]).all():
+                matrix[i,j] = np.nan
+            elif (x[:,i,j]==x[0,i,j]).all() or (y[:]==y[0]).all():
+                matrix[i,j] = np.nan
+            else:
+                r,p = stats.pearsonr(x[:,i,j], y)
+                matrix[i,j] = r
     
     return matrix
 
