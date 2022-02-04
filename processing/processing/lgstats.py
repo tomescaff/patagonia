@@ -2,8 +2,8 @@ import xarray as xr
 import numpy as np
 import pandas as pd
 from os.path import join
-from settings import *
-from utils import math
+from .settings import *
+from .utils import math
 
 PRESSURE_LEVELS = [1000, 850, 700, 500, 300]
 
