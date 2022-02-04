@@ -291,17 +291,17 @@ def get_olr_stats(series, resampling_fun, verbose = True):
     filename='olr.nc'
     path = join(basedir, 'level', filename)
     varname = 'olr'
-    da = xr.open_dataset(path)[varname]
+    da = xr.open_dataset(path, engine='netcdf4')[varname]
     
     # transform units using factor and offset
     mult = 1
     offset = 0 
     da = da*mult+offset
 
+    # handling time coordinate
+    da['time'] = pd.date_range('1979-01', '2018-04', freq='1MS')
+
     if verbose: print(varname)
-    
-    # rename dimensions to special names
-    da = da.rename({'lat':'lat_noaa','lon':'lon_noaa'})
 
     # resample
     da_resampled = resampling_fun(da)
@@ -310,6 +310,11 @@ def get_olr_stats(series, resampling_fun, verbose = True):
     regmap, pmap = math.regressmap_3D_1D_time_lat_lon(da_resampled,series)
     corrmap = math.correlation_3D_1D_time_lat_lon(da_resampled,series)
     
+    # rename dimensions to special names
+    regmap = regmap.rename({'lat':'lat_noaa','lon':'lon_noaa'})
+    pmap = pmap.rename({'lat':'lat_noaa','lon':'lon_noaa'})
+    corrmap = corrmap.rename({'lat':'lat_noaa','lon':'lon_noaa'})
+
     stats = dict()
     stats[varname+'__regress'] = regmap
     stats[varname+'__corr'] = corrmap
