@@ -7,7 +7,7 @@ from utils import math
 
 PRESSURE_LEVELS = [1000, 850, 700, 500, 300]
 
-def get_stats_from_time_level_lat_lon_vars(serie, filename, varname, mult, offset, resampling_fun, verbose = True, last_year_2014= False):
+def get_stats_from_time_level_lat_lon_vars(series, filename, varname, mult, offset, resampling_fun, verbose = True, last_year_2014= False):
 
     # read netcdf variable as xarray data array
     basedir = ERAINT_MONTH_ROOT
@@ -20,7 +20,7 @@ def get_stats_from_time_level_lat_lon_vars(serie, filename, varname, mult, offse
     if verbose: print(varname)
     
     # case netcdf ends in 2014
-    if last_year_2014: serie = serie.sel(time=slice('1980-04', '2014-03'))
+    if last_year_2014: series = series.sel(time=slice('1980-04', '2014-03'))
 
     # compute stats for each pressure level
     stats = dict()
@@ -39,8 +39,8 @@ def get_stats_from_time_level_lat_lon_vars(serie, filename, varname, mult, offse
         da_resampled = resampling_fun(da)
 
         # compute stats between [time, lat, lon] and [time]
-        regmap, pmap = math.regressmap_3D_1D_time_lat_lon(da_resampled,serie)
-        corrmap = math.correlation_3D_1D_time_lat_lon(da_resampled,serie)
+        regmap, pmap = math.regressmap_3D_1D_time_lat_lon(da_resampled,series)
+        corrmap = math.correlation_3D_1D_time_lat_lon(da_resampled,series)
         
         # save in stats dict
         stats[varname+str(level)+'__regress'] = regmap
@@ -49,61 +49,61 @@ def get_stats_from_time_level_lat_lon_vars(serie, filename, varname, mult, offse
     da_lev.close()
     return stats
 
-def get_z_stats(serie, resampling_fun, verbose = True):
+def get_z_stats(series, resampling_fun, verbose = True):
 
     filename='zg_1979_2017_sellevels.nc'
     varname = 'z'
     mult = 1/9.8
     offset = 0 
-    stats = get_stats_from_time_level_lat_lon_vars(serie, filename, varname, mult, offset, resampling_fun, verbose)
+    stats = get_stats_from_time_level_lat_lon_vars(series, filename, varname, mult, offset, resampling_fun, verbose)
     return stats
 
-def get_t_stats(serie, resampling_fun, verbose = True):
+def get_t_stats(series, resampling_fun, verbose = True):
 
     filename='air_1979_2017.nc'
     varname = 't'
     mult = 1
     offset=-273.15
-    stats = get_stats_from_time_level_lat_lon_vars(serie, filename, varname, mult, offset, resampling_fun, verbose)
+    stats = get_stats_from_time_level_lat_lon_vars(series, filename, varname, mult, offset, resampling_fun, verbose)
     return stats
 
-def get_u_stats(serie, resampling_fun, verbose = True):
+def get_u_stats(series, resampling_fun, verbose = True):
 
     filename='uwnd_1979_2014_sellevels.nc'
     varname = 'u'
     mult = 1
     offset = 0 
-    stats = get_stats_from_time_level_lat_lon_vars(serie, filename, varname, mult, offset, resampling_fun, verbose, last_year_2014 = True)
+    stats = get_stats_from_time_level_lat_lon_vars(series, filename, varname, mult, offset, resampling_fun, verbose, last_year_2014 = True)
     return stats
 
-def get_v_stats(serie, resampling_fun, verbose = True):
+def get_v_stats(series, resampling_fun, verbose = True):
 
     filename='vwnd_1979_2014_sellevels.nc'
     varname = 'v'
     mult = 1
     offset = 0 
-    stats = get_stats_from_time_level_lat_lon_vars(serie, filename, varname, mult, offset, resampling_fun, verbose, last_year_2014 = True)
+    stats = get_stats_from_time_level_lat_lon_vars(series, filename, varname, mult, offset, resampling_fun, verbose, last_year_2014 = True)
     return stats
 
-def get_r_stats(serie, resampling_fun, verbose = True):
+def get_r_stats(series, resampling_fun, verbose = True):
 
     filename='rhum_1979_2014_sellevels.nc'
     varname = 'r'
     mult = 1
     offset = 0 
-    stats = get_stats_from_time_level_lat_lon_vars(serie, filename, varname, mult, offset, resampling_fun, verbose, last_year_2014 = True)
+    stats = get_stats_from_time_level_lat_lon_vars(series, filename, varname, mult, offset, resampling_fun, verbose, last_year_2014 = True)
     return stats
 
-def get_q_stats(serie, resampling_fun, verbose = True):
+def get_q_stats(series, resampling_fun, verbose = True):
 
     filename='q_1979_2014_sellevels.nc'
     varname = 'q'
     mult = 1000
     offset = 0 
-    stats = get_stats_from_time_level_lat_lon_vars(serie, filename, varname, mult, offset, resampling_fun, verbose, last_year_2014 = True)
+    stats = get_stats_from_time_level_lat_lon_vars(series, filename, varname, mult, offset, resampling_fun, verbose, last_year_2014 = True)
     return stats
 
-def get_sst_stats(serie, resampling_fun, verbose = True):
+def get_sst_stats(series, resampling_fun, verbose = True):
 
     # read netcdf variable as xarray data array
     basedir = ERAINT_MONTH_ROOT
@@ -135,8 +135,8 @@ def get_sst_stats(serie, resampling_fun, verbose = True):
     da_resampled = da_resampled.where(notnulls, np.nan)
     
     # compute stats between [time, lat, lon] and [time]
-    regmap, pmap = math.regressmap_3D_1D_time_lat_lon(da_resampled,serie)
-    corrmap = math.correlation_3D_1D_time_lat_lon(da_resampled,serie)
+    regmap, pmap = math.regressmap_3D_1D_time_lat_lon(da_resampled,series)
+    corrmap = math.correlation_3D_1D_time_lat_lon(da_resampled,series)
     
     stats = dict()
     stats[varname+'__regress'] = regmap
@@ -146,7 +146,7 @@ def get_sst_stats(serie, resampling_fun, verbose = True):
 
     return stats
 
-def get_mslp_stats(serie, resampling_fun, verbose = True):
+def get_mslp_stats(series, resampling_fun, verbose = True):
     
     # read netcdf variable as xarray data array
     basedir = ERAINT_MONTH_ROOT
@@ -169,8 +169,8 @@ def get_mslp_stats(serie, resampling_fun, verbose = True):
     da_resampled = resampling_fun(da)
 
     # compute stats between [time, lat, lon] and [time]
-    regmap, pmap = math.regressmap_3D_1D_time_lat_lon(da_resampled,serie)
-    corrmap = math.correlation_3D_1D_time_lat_lon(da_resampled,serie)
+    regmap, pmap = math.regressmap_3D_1D_time_lat_lon(da_resampled,series)
+    corrmap = math.correlation_3D_1D_time_lat_lon(da_resampled,series)
     
     stats = dict()
     stats[varname+'__regress'] = regmap
@@ -179,7 +179,7 @@ def get_mslp_stats(serie, resampling_fun, verbose = True):
     da.close()
     return stats
 
-def get_sat_stats(serie, resampling_fun, verbose = True):
+def get_sat_stats(series, resampling_fun, verbose = True):
     
     # read netcdf variable as xarray data array
     basedir = ERAINT_MONTH_ROOT
@@ -202,8 +202,8 @@ def get_sat_stats(serie, resampling_fun, verbose = True):
     da_resampled = resampling_fun(da)
 
     # compute stats between [time, lat, lon] and [time]
-    regmap, pmap = math.regressmap_3D_1D_time_lat_lon(da_resampled,serie)
-    corrmap = math.correlation_3D_1D_time_lat_lon(da_resampled,serie)
+    regmap, pmap = math.regressmap_3D_1D_time_lat_lon(da_resampled,series)
+    corrmap = math.correlation_3D_1D_time_lat_lon(da_resampled,series)
     
     stats = dict()
     stats[varname+'__regress'] = regmap
@@ -213,7 +213,7 @@ def get_sat_stats(serie, resampling_fun, verbose = True):
     return stats
 
 # Note: Eraint precip is stored as acc monthly data
-def get_precip_stats(serie, resampling_fun, verbose = True):
+def get_precip_stats(series, resampling_fun, verbose = True):
     
     # read netcdf variable as xarray data array
     basedir = ERAINT_MONTH_ROOT
@@ -239,8 +239,8 @@ def get_precip_stats(serie, resampling_fun, verbose = True):
     da_resampled = resampling_fun(da)
 
     # compute stats between [time, lat, lon] and [time]
-    regmap, pmap = math.regressmap_3D_1D_time_lat_lon(da_resampled,serie)
-    corrmap = math.correlation_3D_1D_time_lat_lon(da_resampled,serie)
+    regmap, pmap = math.regressmap_3D_1D_time_lat_lon(da_resampled,series)
+    corrmap = math.correlation_3D_1D_time_lat_lon(da_resampled,series)
     
     stats = dict()
     stats[varname+'__regress'] = regmap
@@ -250,7 +250,7 @@ def get_precip_stats(serie, resampling_fun, verbose = True):
     return stats
 
 # TODO: verify how pw is stored in Eraint monthly data (mean or acc)
-def get_pw_stats(serie, resampling_fun, verbose = True):
+def get_pw_stats(series, resampling_fun, verbose = True):
     
     # read netcdf variable as xarray data array
     basedir = ERAINT_MONTH_ROOT
@@ -273,8 +273,8 @@ def get_pw_stats(serie, resampling_fun, verbose = True):
     da_resampled = resampling_fun(da)
 
     # compute stats between [time, lat, lon] and [time]
-    regmap, pmap = math.regressmap_3D_1D_time_lat_lon(da_resampled,serie)
-    corrmap = math.correlation_3D_1D_time_lat_lon(da_resampled,serie)
+    regmap, pmap = math.regressmap_3D_1D_time_lat_lon(da_resampled,series)
+    corrmap = math.correlation_3D_1D_time_lat_lon(da_resampled,series)
     
     stats = dict()
     stats[varname+'__regress'] = regmap
@@ -284,7 +284,7 @@ def get_pw_stats(serie, resampling_fun, verbose = True):
     return stats
 
 # Note: NOAA and Eraint lat-lon grids are different
-def get_olr_stats(serie, resampling_fun, verbose = True):
+def get_olr_stats(series, resampling_fun, verbose = True):
     
     # read netcdf variable as xarray data array
     basedir = NOAA_MONTH_ROOT
@@ -307,8 +307,8 @@ def get_olr_stats(serie, resampling_fun, verbose = True):
     da_resampled = resampling_fun(da)
 
     # compute stats between [time, lat, lon] and [time]
-    regmap, pmap = math.regressmap_3D_1D_time_lat_lon(da_resampled,serie)
-    corrmap = math.correlation_3D_1D_time_lat_lon(da_resampled,serie)
+    regmap, pmap = math.regressmap_3D_1D_time_lat_lon(da_resampled,series)
+    corrmap = math.correlation_3D_1D_time_lat_lon(da_resampled,series)
     
     stats = dict()
     stats[varname+'__regress'] = regmap
