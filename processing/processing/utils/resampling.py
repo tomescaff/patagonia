@@ -16,11 +16,15 @@ def ndays_per_month(init_date = '1980-04-01', end_date = '2015-03-31'):
     return ndays_per_month
 
 # transform monthly mean timeseries in [·/day] to monthly acc timeseries in [·/month]
+# from_monthly_acc == True assumes input as a monthly acc timeseries in [·/month]
 # use data from 1980-04 to 2015-03
-def to_monthly_acc_values(da_monthly, init_date = '1980-04-01', end_date = '2015-03-31'):
+def to_monthly_acc_values(da_monthly, from_monthly_acc = False, init_date = '1980-04-01', end_date = '2015-03-31'):
 
     # select time period
     da_monthly = da_monthly.sel(time=slice(init_date, end_date))
+
+    # handle the case when input is already a monthly acc timeseries
+    if from_monthly_acc: return da_monthly
     
     # get numbers of days per month
     ndays_month = ndays_per_month()
@@ -30,17 +34,19 @@ def to_monthly_acc_values(da_monthly, init_date = '1980-04-01', end_date = '2015
     return da_monthly
 
 # transform monthly mean timeseries in [·/day] to yearly acc timeseries in [·/year]
+# from_monthly_acc == True assumes input as a monthly acc timeseries in [·/month]
 # use data from 1980-04 to 2015-03
-def to_yearly_acc_values(da_monthly):
+def to_yearly_acc_values(da_monthly, from_monthly_acc = False):
 
-    return to_monthly_acc_values(da_monthly).resample(time='12MS').sum('time',skipna=False)
+    return to_monthly_acc_values(da_monthly, from_monthly_acc).resample(time='12MS').sum('time',skipna=False)
     
 # transform monthly mean timeseries in [·/day] to yearly mean timeseries in [·/day]
+# from_monthly_acc == True assumes input as a monthly acc timeseries in [·/month]
 # use data from 1980-04 to 2015-03
-def to_yearly_mean_values(da_monthly):
+def to_yearly_mean_values(da_monthly, from_monthly_acc = False):
 
     # to monthly acc timeseries in [·/month]
-    da_monthly_acc = to_monthly_acc_values(da_monthly)
+    da_monthly_acc = to_monthly_acc_values(da_monthly,  from_monthly_acc)
     
     # compute numbers of days per month in xarray
     ndays_month = ndays_per_month()
@@ -52,26 +58,29 @@ def to_yearly_mean_values(da_monthly):
     # return yearly mean serie
     return yearly_data_acc/ndays_per_year
 
-# transform monthly mean timeseries in [·/day] to winter acc timeseries in [·/year]
+# transform monthly mean timeseries in [·/day] to winter acc timeseries in [·/winter]
+# from_monthly_acc == True assumes input as a monthly acc timeseries in [·/month]
 # use data from 1980-04 to 2015-03
-def to_winter_acc_values(da_monthly):
+def to_winter_acc_values(da_monthly, from_monthly_acc = False):
 
-    da_seas = to_monthly_acc_values(da_monthly).resample(time='6MS').sum('time',skipna=False)
+    da_seas = to_monthly_acc_values(da_monthly, from_monthly_acc).resample(time='6MS').sum('time',skipna=False)
     return da_seas[0::2]
 
-# transform monthly mean timeseries in [·/day] to summer acc timeseries in [·/year]
+# transform monthly mean timeseries in [·/day] to summer acc timeseries in [·/summer]
+# from_monthly_acc == True assumes input as a monthly acc timeseries in [·/month]
 # use data from 1980-04 to 2015-03
-def to_summer_acc_values(da_monthly):
-    
-    da_seas = to_monthly_acc_values(da_monthly).resample(time='6MS').sum('time',skipna=False)
+def to_summer_acc_values(da_monthly, from_monthly_acc = False):
+
+    da_seas = to_monthly_acc_values(da_monthly, from_monthly_acc).resample(time='6MS').sum('time',skipna=False)
     return da_seas[1::2]
 
 # transform monthly mean timeseries in [·/day] to winter mean timeseries in [·/day]
+# from_monthly_acc == True assumes input as a monthly acc timeseries in [·/month]
 # use data from 1980-04 to 2015-03
-def to_winter_mean_values(da_monthly):
+def to_winter_mean_values(da_monthly, from_monthly_acc = False):
 
     # to monthly acc timeseries in [·/month]
-    da_monthly_acc = to_monthly_acc_values(da_monthly)
+    da_monthly_acc = to_monthly_acc_values(da_monthly, from_monthly_acc)
     
     # compute numbers of days per month in xarray
     ndays_month = ndays_per_month()
@@ -84,11 +93,12 @@ def to_winter_mean_values(da_monthly):
     return winter_data_acc/ndays_per_year
 
 # transform monthly mean timeseries in [·/day] to summer mean timeseries in [·/day]
+# from_monthly_acc == True assumes input as a monthly acc timeseries in [·/month]
 # use data from 1980-04 to 2015-03
-def to_summer_mean_values(da_monthly):
+def to_summer_mean_values(da_monthly, from_monthly_acc = False):
 
     # to monthly acc timeseries in [·/month]
-    da_monthly_acc = to_monthly_acc_values(da_monthly)
+    da_monthly_acc = to_monthly_acc_values(da_monthly, from_monthly_acc)
     
     # compute numbers of days per month in xarray
     ndays_month = ndays_per_month()
