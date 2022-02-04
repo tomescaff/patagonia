@@ -26,15 +26,8 @@ def correlation_3D_1D(x, y):
     # fill matrix with correlations
     for i in range(n):
         for j in range(m):
-            # handle case with nans
-            if np.isnan(x[:,i,j]).all() or np.isnan(y[:,i,j]).all():
-                matrix[i,j] = np.nan
-            # handle case with singular value
-            elif (x[:,i,j]==x[0,i,j]).all() or (y[:,i,j]==y[0,i,j]).all():
-                matrix[i,j] = np.nan
-            # get correlation using numpy
-            else:
-                matrix[i,j] = np.corrcoef(x[:,i,j],y[:,i,j])[0,1]
+            r,p = stats.pearsonr(x[:,i,j], y)
+            matrix[i,j] = r
     
     return matrix
 
