@@ -9,4 +9,4 @@ SPI_MODEL_RESULT_FILE = 'mb_mon_iceparm3_65LR_05PG_9.5scale_21offset_100prfactor
 
 REGCM_MONTH_ROOT  = '/Users/Tom/tmp/mount/tcarrasc/datasets/climate/RegCM4/alldom_latlongrid/month/'
 ERAINT_MONTH_ROOT = '/Users/Tom/tmp/mount/tcarrasc/datasets/climate/ERA_INTERIM/month/'
-NOAA_MONTH_ROOT = '/Users/Tom/tmp/mount/tcarrasc/datasets/satellite/NOAA/month/level/'
+NOAA_MONTH_ROOT = '/Users/Tom/tmp/mount/tcarrasc/datasets/satellite/NOAA/month/'
