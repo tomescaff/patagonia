@@ -14,6 +14,7 @@ data = prepare_series(detrend=False)
 
 # create series for stats
 series = resampling.to_yearly_acc_values(data['mb'])
+series = (series-series.mean('time'))/series.std('time')
 
 # resampling functions
 res_mean = resampling.to_winter_mean_values

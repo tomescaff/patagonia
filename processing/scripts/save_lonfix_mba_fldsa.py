@@ -13,6 +13,7 @@ data = prepare_series(detrend=False)
 
 # create series for stats
 series = resampling.to_yearly_acc_values(data['mb'])
+series = (series-series.mean('time'))/series.std('time')
 
 # define longitude for transect
 sel_lon = -80.0
