@@ -20,7 +20,7 @@ sel_lon = -80.0
 # resampling functions
 res_mean = resampling.to_winter_mean_values
 
-output_filename = 'lonfix_mba_fldsw.nc'
+output_filename = 'lonfix_80w_mba_fldsw.nc'
 
 # ****************************************************
 # dictionary with results
@@ -48,4 +48,4 @@ stats.update( lonfixstats.get_r_stats( series, res_mean, sel_lon) )
 stats.update( lonfixstats.get_q_stats( series, res_mean, sel_lon) )
 
 outds = xr.Dataset(stats)
-outds.to_netcdf('../data/' + output_filename)
+outds.to_netcdf('../data/nc/' + output_filename)
