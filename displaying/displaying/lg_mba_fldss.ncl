@@ -5,10 +5,9 @@ begin
   ; get data
   ;************************************************
 
-  f1            = addfile ("../data/nc/lg_mba_sstsats.nc", "r")
-  f             = addfile ("../data/nc/lg_mba_fldss.nc", "r")
+  f             = addfile ("../../processing/data/nc/lg_mba_fldss.nc", "r")
   
-  sst           = f1->sstsat__corr(:,:)       
+  sst           = f->sstsat__corr(:,:)       
   mslp          = f->msl__regress(:,:)
 
   u850          = f->u850__corr(:,:)       
