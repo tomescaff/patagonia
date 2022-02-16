@@ -14,6 +14,14 @@ runs = [
     ['sam', 'sst-pat', 'corr_seas_sam_sstpat'],
     ['asl-mean', 'mb', 'corr_seas_aslmean_mb'],
     ['sam', 'asl-mean', 'corr_seas_sam_aslmean'],
+    ['z300-drake', 'pr', 'corr_seas_z300drake_pr'],
+    ['z300-drake', 'tas', 'corr_seas_z300drake_tas'],
+    ['t850-drake', 'pr', 'corr_seas_t850drake_pr'],
+    ['t850-drake', 'mb', 'corr_seas_t850drake_mb'],
+    ['sst-pat', 'pr', 'corr_seas_sstpat_pr'],
+    ['sst-pat', 'mb', 'corr_seas_sstpat_mb'],
+    ['u850-pat', 'pr', 'corr_seas_u850pat_pr'],
+    ['u850-pat', 'tas', 'corr_seas_u850pat_tas'],
 ]
 
 # get series of monthly anomalies
