@@ -22,6 +22,9 @@ runs = [
     ['sst-pat', 'mb', 'corr_seas_sstpat_mb'],
     ['u850-pat', 'pr', 'corr_seas_u850pat_pr'],
     ['u850-pat', 'tas', 'corr_seas_u850pat_tas'],
+    ['t850-drake', 'z300-drake', 'corr_seas_t850drake_z300drake'],
+    ['enso-ep', 'z300-drake', 'corr_seas_ensoep_z300drake'],
+    ['enso-cp', 'z300-drake', 'corr_seas_ensocp_z300drake'],
 ]
 
 # get series of monthly anomalies
