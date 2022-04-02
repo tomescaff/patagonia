@@ -336,7 +336,7 @@ begin
   ;************************************************
   
   res5@cnFillPalette  = "BlueWhiteOrangeRed"       ; set color map
-  res5@gsnLeftString = "b) SAT (corr. in colors) & V2m (reg. in vectors)"
+  res5@gsnLeftString = "c) SAT (corr. in colors) & V10m (reg. in vectors)"
   res5@gsnLeftStringFontHeightF = 0.0185
   vcres@vcRefMagnitudeF         = 0.5
   plot21 = gsn_csm_contour_map(wks, tas, res5)
