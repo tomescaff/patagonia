@@ -1,0 +1,26 @@
+name: paper
+channels:
+  - defaults
+dependencies:
+  - python=3.7
+  - xarray
+  - matplotlib
+  - cartopy
+  - cmaps
+  - owslib
+  - fiona
+  - pyyaml
+  - netcdf4
+  - bottleneck
+  - dask
+  - spyder
+  - eofs
+  - statsmodels
+  - tabulate
+  - pseudonetcdf
+  - cftime
+  - fsspec
+  - scipy
+  - pooch
+  - rasterio
+  - zarr
