@@ -6,7 +6,6 @@ dependencies:
   - xarray
   - matplotlib
   - cartopy
-  - cmaps
   - owslib
   - fiona
   - pyyaml
@@ -14,10 +13,8 @@ dependencies:
   - bottleneck
   - dask
   - spyder
-  - eofs
   - statsmodels
   - tabulate
-  - pseudonetcdf
   - cftime
   - fsspec
   - scipy
