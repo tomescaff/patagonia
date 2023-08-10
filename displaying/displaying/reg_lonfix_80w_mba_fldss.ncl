@@ -146,7 +146,7 @@ begin
   plot12_andes = gsn_csm_xy(wks, andes_lat, andes_pres, res_andes)
   plot12_pi = gsn_csm_xy(wks, pi_lat, pi_pres, res_pi)
   plot12_cont = gsn_csm_contour(wks, u, res1)
-  plot12_cont = ColorNegDashZeroPosContour(plot12_cont,"red","magenta","green4") 
+  plot12_cont = ColorNegDashZeroPosContour(plot12_cont,"black","black","black") 
   plot12_latp = gsn_csm_pres_hgt(wks, u, res2)
   overlay(plot12_latp, plot12_andes)
   overlay(plot12_latp, plot12_pi)
